@@ -1,22 +1,6 @@
 title: S # 站点标题
 description: | # 头像背后的信息（html格式），<br/>代表换行
   介绍
-  <a href="mailto:i@wu-kan.cn">
-    <i class="fa-solid fa-envelope"></i>
-  </a>
-  <a href="https://github.com/wu-kan">
-    <i class="fa-brands fa-github"></i>
-  </a>
-  <a href="https://vjudge.net/user/WuK">
-    <i class="fa-solid fa-smile"></i>
-  </a>
-  <a href="https://space.bilibili.com/166390020">
-    <i class="fa-brands fa-bilibili"></i>
-  </a>
-  <a href="https://www.zhihu.com/people/wu.kan/activities">
-    <i class="fa-brands fa-zhihu"></i>
-  </a>
-  <br/>
 url: https://shekelash.github.io # 你的域名，例如 https://wu-kan.github.io
 baseurl: "" # 假如你的博客是建在某个目录下的，请在这里加上目录名，并且下面配置的所有链接里的`/assets`前也要加，即`/your_baseurl/assets`。这一项结尾不要有'/'。
 
@@ -44,7 +28,7 @@ defaults: # 将所有配置选项使用<https://jekyllrb.com/docs/configuration/
           sidebar: # 此配置项下是一些关于侧边栏的配置
             disable: false # 是否不显示sidebar
             avatar: # 侧边栏显示的头像
-              enable: true
+              enable: false
               img: h # 头像的地址
             nav: # 导航部分的内容，你也可以自己增加文字、图标（来自fontawesome）和对应的链接
               - title: '<i class="fa-solid fa-home fa-fw"></i> 首页'
