@@ -1,6 +1,3 @@
-<!--调用font-awesome图标-->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-
 # Explore
 
  ShekelAsh的数字家园
