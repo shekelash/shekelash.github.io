@@ -7,7 +7,7 @@
 
 <!-- .slide -->
 
-- <h6>[Fic Drafts](https://shekelash.github.io/ficdrafts/)</h>
+- [Fic Drafts](https://shekelash.github.io/ficdrafts/)
   - 放飞自我的草稿箱
 - [Bet Hayyim](https://shekelash.github.io/)
   - 词条小说《永生之地》，尚未开工
