@@ -8,7 +8,7 @@
 
 - [Fic Drafts](https://shekelash.github.io/ficdrafts/)
   - 放飞自我的草稿箱
-- [Bet Hayyim](https://bet-hayyim.vercel.app/)
+- [Bet Hayyim](https://shekelash.github.io/索引/index.html)
   - 词条小说《永生之地》，尚未开工
 - [Digital Garden](https://shekelash.github.io/)
   - 基于Quartz的数字花园
