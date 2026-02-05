@@ -6,7 +6,7 @@
 
 <!-- .slide --> <!--向右翻页代码-->
 
-## [S.](https://shekelash.github.io/索引/index.html)
+## [S.](https://shekelash.github.io/索引/archive-index.html)
 - 放飞自我的草稿箱
 - 词条小说《永生之地》，尚未开工
 - 发布方案由[Obsidian Webpage Export](https://docs.obsidianweb.net/)提供。
