@@ -10,7 +10,7 @@
 - 放飞自我的草稿箱
 - 词条小说《永生之地》，尚未开工
 - 发布方案由[Obsidian Webpage Export](https://docs.obsidianweb.net/)提供。
-
+<br>
 ### [Fic Note](https://ficnote.vercel.app/)
 - 扫文笔记
 - 发布方案由[Obsidian Digital Garden](https://dg-docs.ole.dev/)提供。
@@ -23,7 +23,7 @@
 - [页边注](https://github.com/shekelash/obsidian-margin-notes)：
   - 侧边栏集中管理当前笔记的高亮、注释和脚注
 - [笔记模板](https://github.com/shekelash/obsidian-functional-templates)：
-  - 年表模板等
+  - 时间轴等功能性模板
 
 <!-- .slide vertical=true --> <!--向下翻页代码-->
 
