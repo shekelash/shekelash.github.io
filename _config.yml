@@ -20,10 +20,8 @@ defaults:
     values:
       jekyll-theme-WuK:
         default:
-          # 为 body 添加主题类，用于定义主题色变量
           body:
             theme-base: theme-base-07
-          # 全局基础 meta 标签与主题色变量定义
           append_to_head:
             - <meta charset="utf-8" />
             - <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -33,8 +31,9 @@ defaults:
                   --theme-base-color: DarkSlateBlue;
                 }
               </style>
+            # 添加 Font Awesome 图标库，用于显示 GitHub 等图标
+            - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" />
         home:
-          # 为幻灯片分页添加 data 属性
           append_to_section_tag:
             - key: data-markdown
             - key: data-separator
@@ -43,7 +42,6 @@ defaults:
               value: <!-- .slide vertical=true -->
             - key: data-background-color
               value: "White"
-          # 引入 reveal.js 样式及自定义样式
           prepend: |
             <link
               rel="stylesheet"
@@ -60,7 +58,6 @@ defaults:
                 border-bottom: 1px solid var(--theme-base-color);
               }
             </style>
-          # 引入 reveal.js 脚本并初始化
           append: |
             <script
               async="async"
