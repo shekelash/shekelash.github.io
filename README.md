@@ -18,7 +18,7 @@
 
 <!-- .slide --> <!--向右翻页代码-->
 
-### Obsidain工具分享
+### Obsidain自制工具分享
 - [布局切换器](https://github.com/shekelash/obsidian-layout-switcher)：
   - 保存切换工作区布局（边栏显示、分栏结构）
 - [页边注](https://github.com/shekelash/obsidian-margin-notes)：
