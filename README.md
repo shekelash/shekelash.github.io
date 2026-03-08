@@ -1,5 +1,3 @@
-<!-- S -->
-
 # Explore
 
 \- ShekelAsh的数字家园 -
