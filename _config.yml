@@ -1,42 +1,77 @@
-home: # 展示页的配置可跳过，详见<https://revealjs.com/>
-  append_to_section_tag:
-    - key: data-markdown
-    - key: data-separator # 水平展示页分隔符
-      value: <!-- .slide -->
-    - key: data-separator-vertical # 垂直展示页分隔符
-      value: <!-- .slide vertical=true -->
-    - key: data-background-color
-      value: "White"
-  prepend: |
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/combine/npm/reveal.js@4.4.0/dist/reveal.min.css,npm/reveal.js@4.4.0/dist/theme/serif.min.css"
-    />
-    <style>
-      .sidebar {
-        line-height: 1.5;
-      }
-      .reveal .slides {
-        text-align: left;
-      }
-      .reveal a,
-      .reveal a:hover,
-      .reveal a:focus {
-        color: inherit;
-        border-bottom: 1px solid var(--theme-base-color);
-      }
-    </style>
-  append: |
-    <script
-      async="async"
-      src="https://cdn.jsdelivr.net/combine/npm/reveal.js@4.4.0/dist/reveal.min.js,npm/reveal.js@4.4.0/plugin/markdown/markdown.min.js,npm/reveal.js@4.4.0/plugin/math/math.min.js"
-      onload="
-      for(let x of document.getElementsByClassName('wrap'))
-        x.classList.add('reveal');
-      Reveal.initialize({
-        height: '100%',
-        mouseWheel: true,
-        navigationMode: 'linear',
-        plugins: [ RevealMarkdown,RevealMath.KaTeX ]
-      });
-    "></script>
+title: S
+url: https://shekelash.github.io
+baseurl: ""
+
+remote_theme: https://github.com/wu-kan/jekyll-theme-WuK@4.2.0
+
+plugins:
+  - jekyll-readme-index
+  - jekyll-default-layout
+  - jekyll-remote-theme
+
+readme_index:
+  with_frontmatter: true
+
+markdown: kramdown
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      jekyll-theme-WuK:
+        default:
+          # 为 body 添加主题类，用于定义主题色变量
+          body:
+            theme-base: theme-base-07
+          # 全局基础 meta 标签与主题色变量定义
+          append_to_head:
+            - <meta charset="utf-8" />
+            - <meta name="viewport" content="width=device-width,initial-scale=1" />
+            - |
+              <style>
+                .theme-base-07 {
+                  --theme-base-color: DarkSlateBlue;
+                }
+              </style>
+        home:
+          # 为幻灯片分页添加 data 属性
+          append_to_section_tag:
+            - key: data-markdown
+            - key: data-separator
+              value: <!-- .slide -->
+            - key: data-separator-vertical
+              value: <!-- .slide vertical=true -->
+            - key: data-background-color
+              value: "White"
+          # 引入 reveal.js 样式及自定义样式
+          prepend: |
+            <link
+              rel="stylesheet"
+              href="https://cdn.jsdelivr.net/combine/npm/reveal.js@4.4.0/dist/reveal.min.css,npm/reveal.js@4.4.0/dist/theme/serif.min.css"
+            />
+            <style>
+              .reveal .slides {
+                text-align: left;
+              }
+              .reveal a,
+              .reveal a:hover,
+              .reveal a:focus {
+                color: inherit;
+                border-bottom: 1px solid var(--theme-base-color);
+              }
+            </style>
+          # 引入 reveal.js 脚本并初始化
+          append: |
+            <script
+              async="async"
+              src="https://cdn.jsdelivr.net/combine/npm/reveal.js@4.4.0/dist/reveal.min.js,npm/reveal.js@4.4.0/plugin/markdown/markdown.min.js,npm/reveal.js@4.4.0/plugin/math/math.min.js"
+              onload="
+              for(let x of document.getElementsByClassName('wrap'))
+                x.classList.add('reveal');
+              Reveal.initialize({
+                height: '100%',
+                mouseWheel: true,
+                navigationMode: 'linear',
+                plugins: [ RevealMarkdown, RevealMath.KaTeX ]
+              });
+            "></script>
