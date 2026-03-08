@@ -18,9 +18,12 @@
 <!-- .slide --> <!--向右翻页代码-->
 
 ### Obsidain工具分享
-- [布局切换器](https://github.com/shekelash/obsidian-layout-switcher)：保存、切换工作区布局（边栏显示、分栏结构），专注计时与字数统计
-- [页边注](https://github.com/shekelash/obsidian-margin-notes)：侧边栏集中展示管理当前笔记的高亮、注释与脚注
-- [笔记模板](https://github.com/shekelash/obsidian-functional-templates)：年表等
+- [布局切换器](https://github.com/shekelash/obsidian-layout-switcher)：
+  - 保存、切换工作区布局（边栏显示、分栏结构），专注计时与字数统计
+- [页边注](https://github.com/shekelash/obsidian-margin-notes)：
+  - 侧边栏集中展示管理当前笔记的高亮、注释与脚注
+- [笔记模板](https://github.com/shekelash/obsidian-functional-templates)：
+  - 年表等
 
 <!-- .slide vertical=true --> <!--向下翻页代码-->
 
