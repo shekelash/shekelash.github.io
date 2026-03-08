@@ -6,14 +6,21 @@
 
 <!-- .slide --> <!--向右翻页代码-->
 
-## [S.](https://shekelash.github.io/索引/archive-index.html)
+### [S.](https://shekelash.github.io/索引/archive-index.html)
 - 放飞自我的草稿箱
 - 词条小说《永生之地》，尚未开工
 - 发布方案由[Obsidian Webpage Export](https://docs.obsidianweb.net/)提供。
 
-## [Fic Note](https://ficnote.vercel.app/)
+### [Fic Note](https://ficnote.vercel.app/)
 - 扫文笔记
 - 发布方案由[Obsidian Digital Garden](https://dg-docs.ole.dev/)提供。
+
+<!-- .slide --> <!--向右翻页代码-->
+
+### Obsidain工具分享
+- [布局切换器](https://github.com/shekelash/obsidian-layout-switcher) 保存、切换工作区布局（边栏显示、分栏结构），支持规则自动推荐、专注计时与字数统计
+- [页边注](https://github.com/shekelash/obsidian-margin-notes) 侧边栏中集中展示、搜索、编辑和管理当前笔记的高亮、注释与脚注。
+- 笔记模板  
 
 <!-- .slide vertical=true --> <!--向下翻页代码-->
 
