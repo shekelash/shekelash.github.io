@@ -11,6 +11,7 @@
 - 词条小说《永生之地》，尚未开工
 - 发布方案由[Obsidian Webpage Export](https://docs.obsidianweb.net/)提供。
 <br>
+
 ### [Fic Note](https://ficnote.vercel.app/)
 - 扫文笔记
 - 发布方案由[Obsidian Digital Garden](https://dg-docs.ole.dev/)提供。
