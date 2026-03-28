@@ -20,7 +20,7 @@
 
 ### Obsidain自制工具分享
 - [布局切换器](https://github.com/shekelash/obsidian-layout-switcher)：保存切换工作区布局
-- [页边注](https://github.com/shekelash/obsidian-margin-notes)：侧边栏集中管理高亮注释脚注
+- [页边注](https://github.com/shekelash/obsidian-margin-notes)：侧边栏集中管理高亮、注释和脚注
 - [侧览](https://github.com/shekelash/obsidian-EdgeTOC)： 浮触发的侧览大纲
 - [笔记模板](https://github.com/shekelash/obsidian-functional-templates)：时间轴等功能性模板
 
