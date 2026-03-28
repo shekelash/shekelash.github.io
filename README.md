@@ -23,6 +23,8 @@
   - 保存切换工作区布局（边栏显示、分栏结构）
 - [页边注](https://github.com/shekelash/obsidian-margin-notes)：
   - 侧边栏集中管理当前笔记的高亮、注释和脚注
+- [侧览](https://github.com/shekelash/obsidian-EdgeTOC)：
+  - 悬浮触发的侧览大纲
 - [笔记模板](https://github.com/shekelash/obsidian-functional-templates)：
   - 时间轴等功能性模板
 
