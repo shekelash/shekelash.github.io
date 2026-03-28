@@ -33,7 +33,7 @@ defaults:
               </style>
             # 添加 Font Awesome 图标库，用于显示 GitHub 等图标
             - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" />
-        home:
+        home: # 展示页的配置可跳过，详见<https://revealjs.com/>
           append_to_section_tag:
             - key: data-markdown
             - key: data-separator
