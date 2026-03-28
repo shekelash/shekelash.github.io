@@ -2,6 +2,8 @@ title: S
 url: https://shekelash.github.io
 baseurl: ""
 
+remote_theme: https://github.com/wu-kan/jekyll-theme-WuK@5.5.0
+
 plugins:
   - jekyll-readme-index
   - jekyll-default-layout
