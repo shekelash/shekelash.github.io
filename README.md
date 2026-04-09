@@ -18,7 +18,7 @@
 
 <!-- .slide vertical=true --> <!--向下翻页代码-->
 
-### Obsidain自制工具分享
+### Obsidain自制工具
 - [布局切换器](https://github.com/shekelash/obsidian-layout-switcher)：保存切换工作区布局
 - [页边注](https://github.com/shekelash/obsidian-margin-notes)：侧边栏集中管理高亮、注释和脚注
 - [侧览](https://github.com/shekelash/obsidian-EdgeTOC)： 悬浮触发的侧览大纲
@@ -26,8 +26,8 @@
 
 <!-- .slide --> <!--向右翻页代码-->
 
-- [mastodon存档读取工具](tool/mastodon_converter.html)
-- 
+### 其他自制工具
+- [mastodon存档读取工具](https://shekelash.github.io/tool/mastodon_converter.html)
 
 
 <!-- .slide vertical=true --> <!--向下翻页代码-->
