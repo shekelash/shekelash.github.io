@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mastodon 存档转 Markdown</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #1a1a2e; color: #e0e0e0;
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; padding: 2rem 1rem;
+}
+h1 { font-size: 1.6rem; margin-bottom: 0.3rem; color: #a78bfa; }
+.subtitle { color: #888; font-size: 0.9rem; margin-bottom: 2rem; }
+
+.drop-zone {
+  width: 100%; max-width: 600px;
+  border: 2px dashed #a78bfa55; border-radius: 16px;
+  padding: 3rem 2rem; text-align: center; cursor: pointer;
+  transition: all 0.2s; background: #16213e;
+}
+.drop-zone:hover, .drop-zone.drag-over { border-color: #a78bfa; background: #1e2a50; }
+.drop-zone .icon { font-size: 3rem; margin-bottom: 1rem; }
+.drop-zone p { color: #aaa; font-size: 0.95rem; }
+.drop-zone span { color: #a78bfa; font-weight: 600; }
+#fileInput { display: none; }
+
+.panel {
+  width: 100%; max-width: 600px; margin-top: 1.2rem;
+  background: #16213e; border-radius: 12px; padding: 1.4rem 1.6rem;
+  display: none;
+}
+.panel.visible { display: block; }
+
+/* Date filter */
+.filter-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
+.filter-row label { font-size: 0.85rem; color: #aaa; white-space: nowrap; }
+.filter-row input[type=date] {
+  background: #0f0f1e; border: 1px solid #3a3a5a; color: #e0e0e0;
+  border-radius: 6px; padding: 0.35rem 0.6rem; font-size: 0.85rem;
+}
+.filter-row input[type=date]:focus { outline: none; border-color: #a78bfa; }
+
+/* Stats */
+.stats { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.stat { text-align: center; }
+.stat-num { font-size: 1.8rem; font-weight: 700; color: #a78bfa; }
+.stat-label { font-size: 0.75rem; color: #888; }
+
+/* Progress */
+.progress-bar-track {
+  background: #2a2a4a; border-radius: 8px; height: 8px;
+  margin: 0.8rem 0; overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  border-radius: 8px; width: 0%; transition: width 0.3s;
+}
+.status-text { font-size: 0.85rem; color: #aaa; }
+
+/* Buttons */
+.btn {
+  display: inline-block; padding: 0.65rem 1.4rem;
+  border-radius: 8px; border: none; cursor: pointer;
+  font-size: 0.9rem; font-weight: 600; transition: opacity 0.2s;
+}
+.btn:hover { opacity: 0.82; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary { background: linear-gradient(135deg, #7c3aed, #a78bfa); color: #fff; }
+.btn-secondary { background: #2a2a4a; color: #e0e0e0; }
+.btn-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+/* Preview */
+.preview {
+  margin-top: 1rem; background: #0f0f1e; border-radius: 8px;
+  padding: 1rem; font-family: monospace; font-size: 0.78rem; color: #ccc;
+  max-height: 220px; overflow-y: auto; white-space: pre-wrap;
+  word-break: break-word; border: 1px solid #2a2a4a;
+}
+
+.error { color: #f87171; background: #2a1a1a; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-size: 0.88rem; }
+.info { font-size: 0.82rem; color: #888; margin-top: 0.5rem; }
+</style>
+</head>
+<body>
+
+<h1>🦣 Mastodon 存档转 Markdown</h1>
+<p class="subtitle">上传 Mastodon 导出的 ZIP 存档，转换为可读 Markdown 文件</p>
+
+<div class="drop-zone" id="dropZone">
+  <div class="icon">📦</div>
+  <p>将 <span>archive-*.zip</span> 拖放至此</p>
+  <p style="margin-top:0.5rem">或 <span>点击选择文件</span></p>
+  <input type="file" id="fileInput" accept=".zip">
+</div>
+
+<!-- Progress panel -->
+<div class="panel" id="progressPanel">
+  <div class="status-text" id="statusText">正在处理...</div>
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+</div>
+
+<!-- Filter + Result panel -->
+<div class="panel" id="resultPanel">
+  <div class="stats" id="stats"></div>
+
+  <div class="filter-row">
+    <label>时间范围：</label>
+    <input type="date" id="dateFrom">
+    <label>至</label>
+    <input type="date" id="dateTo">
+    <button class="btn btn-secondary" id="applyFilter" style="padding:0.35rem 0.9rem;font-size:0.82rem">应用</button>
+    <button class="btn btn-secondary" id="clearFilter" style="padding:0.35rem 0.9rem;font-size:0.82rem">全部</button>
+  </div>
+  <p class="info" id="filterInfo"></p>
+
+  <div class="btn-row" style="margin-top:1rem">
+    <button class="btn btn-primary" id="downloadBtn">⬇️ 下载 Markdown</button>
+    <button class="btn btn-secondary" id="resetBtn">重新上传</button>
+  </div>
+
+  <div class="preview" id="preview"></div>
+</div>
+
+<script>
+// ── DOM refs ──
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const progressPanel = document.getElementById('progressPanel');
+const progressFill = document.getElementById('progressFill');
+const statusText = document.getElementById('statusText');
+const resultPanel = document.getElementById('resultPanel');
+
+// ── State ──
+let allPosts = [];   // sorted desc, { published, md }
+let likes = [];      // url strings
+let dateMin = '';    // earliest post date yyyy-mm-dd
+let dateMax = '';    // latest post date yyyy-mm-dd
+
+// ── Upload ──
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag-over'); if (e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]); });
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) processFile(fileInput.files[0]); });
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  resultPanel.classList.remove('visible');
+  progressPanel.classList.remove('visible');
+  dropZone.style.display = '';
+  fileInput.value = '';
+  allPosts = []; likes = [];
+});
+
+document.getElementById('applyFilter').addEventListener('click', renderResult);
+document.getElementById('clearFilter').addEventListener('click', () => {
+  document.getElementById('dateFrom').value = dateMin;
+  document.getElementById('dateTo').value = dateMax;
+  renderResult();
+});
+document.getElementById('downloadBtn').addEventListener('click', downloadMd);
+
+// ── Helpers ──
+function setProgress(pct, msg) {
+  progressFill.style.width = pct + '%';
+  statusText.textContent = msg;
+}
+
+function stripHtml(html) {
+  if (!html) return '';
+  let s = html
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/p>/gi, '\n')
+    .replace(/<p[^>]*>/gi, '')
+    .replace(/<\/div>/gi, '\n')
+    .replace(/<div[^>]*>/gi, '')
+    // Hashtags & mentions: keep text only
+    .replace(/<a[^>]*class="[^"]*(?:hashtag|mention)[^"]*"[^>]*>(?:<span[^>]*>)?([^<]*)(?:<\/span>)?<\/a>/gi, '$1')
+    // Other links
+    .replace(/<a[^>]*href="([^"]*)"[^>]*>([^<]*)<\/a>/gi, '$2 ($1)')
+    .replace(/<[^>]+>/g, '');
+  const ta = document.createElement('textarea');
+  ta.innerHTML = s;
+  let result = ta.value.trim();
+  // Convert bare URLs in text to markdown links
+  result = result.replace(/(^|[\s\u4e00-\u9fff])(https?:\/\/[^\s]+)/g, (_, pre, url) => `${pre}[${url}](${url})`);
+  return result;
+}
+
+function fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
+function isoToDate(iso) {
+  // returns yyyy-mm-dd string
+  return iso ? iso.slice(0, 10) : '';
+}
+
+function visibilityLabel(obj) {
+  const to = obj.to || [];
+  const cc = obj.cc || [];
+  const pub = 'https://www.w3.org/ns/activitystreams#Public';
+  if (to.includes(pub) || cc.includes(pub)) return null; // public
+  // Empty to+cc = direct message to self, or DM
+  if (to.length === 0 && cc.length === 0) return '🔒 私信';
+  // to contains only specific actors (no followers collection, no public)
+  const followersPattern = /\/followers$/;
+  const allDirect = to.every(t => !followersPattern.test(t) && t !== pub);
+  if (allDirect && to.length > 0) return '🔒 私信';
+  return null;
+}
+
+// ── Build post markdown block ──
+function buildPostMd(item) {
+  const lines = [];
+
+  if (item.type === 'Announce') {
+    // Boost
+    const published = item.published || '';
+    const originalUrl = typeof item.object === 'string' ? item.object : (item.object?.url || item.object?.id || '');
+    // Try to extract @actor from actor field or object url
+    let actor = '';
+    if (item.actor) {
+      // actor is usually a URL like https://instance/users/name
+      const m = item.actor.match(/https?:\/\/([^/]+)\/(?:users\/|@)?([^/]+)/);
+      if (m) actor = `@${m[2]}@${m[1]}`;
+    }
+    lines.push(`## ${fmtDate(published)}`);
+    lines.push('');
+    lines.push(`🔁 转嘟自 ${actor}`);
+    lines.push(`[${originalUrl}](${originalUrl})`);;
+    lines.push('');
+    if (item.id) lines.push(`[原文](${item.id})`);
+    lines.push('');
+    lines.push('---');
+    lines.push('');
+    return { published, md: lines.join('\n') };
+  }
+
+  // Create / Note
+  const obj = item.object;
+  const published = obj.published || item.published || '';
+  const content = stripHtml(obj.content || '');
+
+  lines.push(`## ${fmtDate(published)}`);
+  lines.push('');
+  if (content) lines.push(content);
+
+  // Attachments (images only per spec: url field)
+  const attachments = (obj.attachment || []);
+  if (attachments.length) {
+    lines.push('');
+    for (const a of attachments) {
+      const url = a.url || a.href || '';
+      if (a.mediaType?.startsWith('image/')) {
+        lines.push(`![图片](${url})`);
+      } else if (a.mediaType?.startsWith('video/')) {
+        lines.push(`🎬 [视频](${url})`);
+      } else if (url) {
+        lines.push(`📎 [附件](${url})`);
+      }
+    }
+  }
+
+  // Reply
+  if (obj.inReplyTo) {
+    lines.push('');
+    lines.push(`↩️ 回复自：[${obj.inReplyTo}](${obj.inReplyTo})`);
+  }
+
+  // Footer
+  const vis = visibilityLabel(obj);
+  const originalUrl = obj.url || obj.id || '';
+  lines.push('');
+  const footerParts = [`[→ 原文](${originalUrl})`, vis].filter(Boolean).join(' · ');
+  lines.push(footerParts);
+  lines.push('');
+  lines.push('---');
+  lines.push('');
+
+  return { published, md: lines.join('\n') };
+}
+
+// ── Main parse ──
+async function processFile(file) {
+  if (!file.name.endsWith('.zip')) { alert('请上传 .zip 格式的 Mastodon 存档'); return; }
+  dropZone.style.display = 'none';
+  progressPanel.classList.add('visible');
+  resultPanel.classList.remove('visible');
+  setProgress(5, '正在读取 ZIP...');
+
+  try {
+    const zip = await JSZip.loadAsync(file);
+    setProgress(20, '正在读取 outbox.json...');
+
+    let outboxFile = null, likesFile = null;
+    zip.forEach((path, f) => {
+      if (!f.dir) {
+        if (path === 'outbox.json' || path.endsWith('/outbox.json')) outboxFile = f;
+        if (path === 'likes.json' || path.endsWith('/likes.json')) likesFile = f;
+      }
+    });
+    if (!outboxFile) throw new Error('未找到 outbox.json，请确认是 Mastodon 官方导出的 ZIP');
+
+    setProgress(40, '正在解析嘟文...');
+    const outboxRaw = await outboxFile.async('string');
+    const outbox = JSON.parse(outboxRaw);
+    const items = outbox.orderedItems || outbox.items || (Array.isArray(outbox) ? outbox : []);
+
+    // Parse likes
+    likes = [];
+    if (likesFile) {
+      const likesRaw = await likesFile.async('string');
+      const likesData = JSON.parse(likesRaw);
+      likes = likesData.orderedItems || likesData.items || [];
+    }
+
+    setProgress(65, '正在构建嘟文列表...');
+
+    // Filter valid items: Create+Note or Announce
+    const validItems = items.filter(item => {
+      if (item.type === 'Announce') return true;
+      if (item.type === 'Create' && item.object?.type === 'Note') return true;
+      return false;
+    });
+
+    // Build posts
+    allPosts = validItems.map(buildPostMd);
+    // Sort descending
+    allPosts.sort((a, b) => new Date(b.published) - new Date(a.published));
+
+    setProgress(90, '整理完成...');
+
+    // Compute date range
+    const dates = allPosts.map(p => isoToDate(p.published)).filter(Boolean).sort();
+    dateMin = dates[0] || '';
+    dateMax = dates[dates.length - 1] || '';
+
+    document.getElementById('dateFrom').value = dateMin;
+    document.getElementById('dateTo').value = dateMax;
+
+    setProgress(100, '完成！');
+    setTimeout(() => {
+      progressPanel.classList.remove('visible');
+      resultPanel.classList.add('visible');
+      renderResult();
+    }, 400);
+
+  } catch (e) {
+    setProgress(0, '');
+    progressPanel.classList.remove('visible');
+    dropZone.style.display = '';
+    dropZone.innerHTML += `<div class="error" style="margin-top:1rem">❌ ${e.message}</div>`;
+  }
+}
+
+// ── Render stats + preview for current filter ──
+function renderResult() {
+  const from = document.getElementById('dateFrom').value;
+  const to = document.getElementById('dateTo').value;
+
+  const filtered = allPosts.filter(p => {
+    const d = isoToDate(p.published);
+    return (!from || d >= from) && (!to || d <= to);
+  });
+
+  const boosts = filtered.filter(p => p.md.includes('🔁')).length;
+  const originals = filtered.length - boosts;
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="stat-num">${filtered.length}</div><div class="stat-label">条嘟文</div></div>
+    <div class="stat"><div class="stat-num">${originals}</div><div class="stat-label">原创</div></div>
+    <div class="stat"><div class="stat-num">${boosts}</div><div class="stat-label">转嘟</div></div>
+    <div class="stat"><div class="stat-num">${likes.length}</div><div class="stat-label">点赞</div></div>
+  `;
+
+  document.getElementById('filterInfo').textContent =
+    filtered.length < allPosts.length
+      ? `已筛选 ${filtered.length} / ${allPosts.length} 条（点赞列表始终完整导出）`
+      : `共 ${allPosts.length} 条（点赞 ${likes.length} 条）`;
+
+  // Build preview md (first 2000 chars)
+  const md = buildMd(filtered, from, to);
+  document.getElementById('preview').textContent = md.slice(0, 2000) + (md.length > 2000 ? '\n\n…（预览截断）' : '');
+}
+
+// ── Build full MD string ──
+function buildMd(filtered, from, to) {
+  const rangeLabel = (from && to) ? `${from} ~ ${to}` : (from || to || '全部');
+  const boosts = filtered.filter(p => p.md.includes('🔁')).length;
+  const originals = filtered.length - boosts;
+
+  const header = [
+    `# Mastodon 存档（${rangeLabel}）`,
+    '',
+    `共 ${filtered.length} 条 · 原创 ${originals} · 转嘟 ${boosts}`,
+    '',
+    '---',
+    '',
+  ].join('\n');
+
+  const body = filtered.map(p => p.md).join('');
+
+  const likesSection = likes.length
+    ? ['## 点赞列表', '', ...likes.map(u => `- ${u}`), ''].join('\n')
+    : '';
+
+  return header + body + likesSection;
+}
+
+// ── Download ──
+function downloadMd() {
+  const from = document.getElementById('dateFrom').value;
+  const to = document.getElementById('dateTo').value;
+  const filtered = allPosts.filter(p => {
+    const d = isoToDate(p.published);
+    return (!from || d >= from) && (!to || d <= to);
+  });
+  const md = buildMd(filtered, from, to);
+
+  // Try data URI download (works in most browsers)
+  try {
+    const uri = 'data:text/markdown;charset=utf-8,' + encodeURIComponent(md);
+    const a = document.createElement('a');
+    a.href = uri;
+    a.download = `mastodon_${from || 'all'}_${to || 'all'}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch(e) {
+    // Fallback: copy to clipboard
+    navigator.clipboard.writeText(md).then(() => {
+      alert('下载受限，已将全文复制到剪贴板，请粘贴到文本编辑器并保存为 .md 文件。');
+    }).catch(() => {
+      // Last resort: show in textarea
+      showCopyBox(md);
+    });
+  }
+}
+
+function showCopyBox(md) {
+  let box = document.getElementById('copyBox');
+  if (!box) {
+    box = document.createElement('div');
+    box.id = 'copyBox';
+    box.style.cssText = 'margin-top:1rem;width:100%';
+    box.innerHTML = `<p style="font-size:0.82rem;color:#aaa;margin-bottom:0.5rem">⚠️ 无法直接下载，请全选以下内容，复制后粘贴到编辑器保存为 .md 文件：</p>
+      <textarea id="copyArea" style="width:100%;height:200px;background:#0f0f1e;color:#ccc;border:1px solid #3a3a5a;border-radius:8px;padding:0.8rem;font-family:monospace;font-size:0.75rem;resize:vertical"></textarea>
+      <button onclick="document.getElementById('copyArea').select();document.execCommand('copy');alert('已复制！')" 
+        style="margin-top:0.5rem;padding:0.4rem 1rem;background:#7c3aed;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem">
+        📋 全选并复制
+      </button>`;
+    resultPanel.appendChild(box);
+  }
+  document.getElementById('copyArea').value = md;
+  box.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
