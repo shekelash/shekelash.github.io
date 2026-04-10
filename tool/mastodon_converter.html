@@ -13,11 +13,11 @@ body {
   min-height: 100vh; display: flex; flex-direction: column;
   align-items: center; padding: 2rem 1rem;
 }
-h1 { font-size: 1.6rem; margin-bottom: 0.3rem; color: #a78bfa; }
-.subtitle { color: #888; font-size: 0.9rem; margin-bottom: 2rem; }
+h1 { font-size: 1.5rem; margin-bottom: 0.3rem; color: #a78bfa; }
+.subtitle { color: #888; font-size: 0.88rem; margin-bottom: 2rem; }
 
 .drop-zone {
-  width: 100%; max-width: 600px;
+  width: 100%; max-width: 680px;
   border: 2px dashed #a78bfa55; border-radius: 16px;
   padding: 3rem 2rem; text-align: center; cursor: pointer;
   transition: all 0.2s; background: #16213e;
@@ -29,66 +29,72 @@ h1 { font-size: 1.6rem; margin-bottom: 0.3rem; color: #a78bfa; }
 #fileInput { display: none; }
 
 .panel {
-  width: 100%; max-width: 600px; margin-top: 1.2rem;
+  width: 100%; max-width: 680px; margin-top: 1.2rem;
   background: #16213e; border-radius: 12px; padding: 1.4rem 1.6rem;
   display: none;
 }
 .panel.visible { display: block; }
 
-/* Date filter */
-.filter-row { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
-.filter-row label { font-size: 0.85rem; color: #aaa; white-space: nowrap; }
-.filter-row input[type=date] {
-  background: #0f0f1e; border: 1px solid #3a3a5a; color: #e0e0e0;
-  border-radius: 6px; padding: 0.35rem 0.6rem; font-size: 0.85rem;
-}
-.filter-row input[type=date]:focus { outline: none; border-color: #a78bfa; }
+.progress-bar-track { background: #2a2a4a; border-radius: 8px; height: 8px; margin: 0.8rem 0; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa); border-radius: 8px; width: 0%; transition: width 0.3s; }
+.status-text { font-size: 0.85rem; color: #aaa; }
 
 /* Stats */
-.stats { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.stats { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
 .stat { text-align: center; }
-.stat-num { font-size: 1.8rem; font-weight: 700; color: #a78bfa; }
-.stat-label { font-size: 0.75rem; color: #888; }
+.stat-num { font-size: 1.6rem; font-weight: 700; color: #a78bfa; }
+.stat-label { font-size: 0.72rem; color: #888; }
 
-/* Progress */
-.progress-bar-track {
-  background: #2a2a4a; border-radius: 8px; height: 8px;
-  margin: 0.8rem 0; overflow: hidden;
+/* Filters */
+.filters { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1rem; }
+.filter-row { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+.filter-row label { font-size: 0.82rem; color: #aaa; white-space: nowrap; min-width: 4rem; }
+input[type=date], input[type=text] {
+  background: #0f0f1e; border: 1px solid #3a3a5a; color: #e0e0e0;
+  border-radius: 6px; padding: 0.35rem 0.6rem; font-size: 0.83rem;
 }
-.progress-bar-fill {
-  height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa);
-  border-radius: 8px; width: 0%; transition: width 0.3s;
+input[type=date]:focus, input[type=text]:focus { outline: none; border-color: #a78bfa; }
+input[type=text] { flex: 1; min-width: 160px; }
+
+.type-btns { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.type-btn {
+  padding: 0.28rem 0.7rem; border-radius: 20px; border: 1px solid #3a3a5a;
+  background: transparent; color: #aaa; font-size: 0.78rem; cursor: pointer; transition: all 0.15s;
 }
-.status-text { font-size: 0.85rem; color: #aaa; }
+.type-btn.active { background: #7c3aed; border-color: #7c3aed; color: #fff; }
 
 /* Buttons */
 .btn {
-  display: inline-block; padding: 0.65rem 1.4rem;
+  display: inline-block; padding: 0.6rem 1.3rem;
   border-radius: 8px; border: none; cursor: pointer;
-  font-size: 0.9rem; font-weight: 600; transition: opacity 0.2s;
+  font-size: 0.88rem; font-weight: 600; transition: opacity 0.2s;
 }
 .btn:hover { opacity: 0.82; }
-.btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .btn-primary { background: linear-gradient(135deg, #7c3aed, #a78bfa); color: #fff; }
 .btn-secondary { background: #2a2a4a; color: #e0e0e0; }
-.btn-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.btn-row { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 1rem; }
 
-/* Preview */
-.preview {
-  margin-top: 1rem; background: #0f0f1e; border-radius: 8px;
-  padding: 1rem; font-family: monospace; font-size: 0.78rem; color: #ccc;
-  max-height: 220px; overflow-y: auto; white-space: pre-wrap;
-  word-break: break-word; border: 1px solid #2a2a4a;
+.result-info { font-size: 0.8rem; color: #888; margin-bottom: 0.8rem; }
+
+/* Post list */
+.post-list { display: flex; flex-direction: column; gap: 0; }
+.post-item {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #2a2a4a;
+  font-size: 0.82rem; line-height: 1.6;
 }
-
-.error { color: #f87171; background: #2a1a1a; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-size: 0.88rem; }
-.info { font-size: 0.82rem; color: #888; margin-top: 0.5rem; }
+.post-item:last-child { border-bottom: none; }
+.post-meta { color: #a78bfa; font-size: 0.78rem; margin-bottom: 0.3rem; }
+.post-content { color: #ccc; white-space: pre-wrap; word-break: break-word; }
+.post-reply { color: #888; font-size: 0.76rem; margin-top: 0.25rem; }
+.post-attach { color: #7c9; font-size: 0.76rem; margin-top: 0.2rem; }
+.empty { color: #666; font-size: 0.88rem; padding: 1.5rem 0; text-align: center; }
 </style>
 </head>
 <body>
 
 <h1>🦣 Mastodon 存档转 Markdown</h1>
-<p class="subtitle">上传 Mastodon 导出的 ZIP 存档，转换为可读 Markdown 文件</p>
+<p class="subtitle">上传 Mastodon 导出的 ZIP 存档，筛选后导出 Markdown</p>
 
 <div class="drop-zone" id="dropZone">
   <div class="icon">📦</div>
@@ -97,36 +103,50 @@ h1 { font-size: 1.6rem; margin-bottom: 0.3rem; color: #a78bfa; }
   <input type="file" id="fileInput" accept=".zip">
 </div>
 
-<!-- Progress panel -->
 <div class="panel" id="progressPanel">
   <div class="status-text" id="statusText">正在处理...</div>
   <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
 </div>
 
-<!-- Filter + Result panel -->
 <div class="panel" id="resultPanel">
   <div class="stats" id="stats"></div>
 
-  <div class="filter-row">
-    <label>时间范围：</label>
-    <input type="date" id="dateFrom">
-    <label>至</label>
-    <input type="date" id="dateTo">
-    <button class="btn btn-secondary" id="applyFilter" style="padding:0.35rem 0.9rem;font-size:0.82rem">应用</button>
-    <button class="btn btn-secondary" id="clearFilter" style="padding:0.35rem 0.9rem;font-size:0.82rem">全部</button>
+  <div class="filters">
+    <div class="filter-row">
+      <label>时间</label>
+      <input type="date" id="dateFrom">
+      <span style="color:#666;font-size:0.8rem">～</span>
+      <input type="date" id="dateTo">
+      <button class="btn btn-secondary" id="clearFilter" style="padding:0.3rem 0.8rem;font-size:0.78rem">全部</button>
+    </div>
+    <div class="filter-row">
+      <label>关键词</label>
+      <input type="text" id="keyword" placeholder="搜索正文、账号、标签…">
+    </div>
+    <div class="filter-row">
+      <label>类型</label>
+      <div class="type-btns" id="typeBtns">
+        <button class="type-btn active" data-type="all">全部</button>
+        <button class="type-btn" data-type="original">🌍 原创</button>
+        <button class="type-btn" data-type="followers">👥 仅关注者</button>
+        <button class="type-btn" data-type="reply">↩️ 回复</button>
+        <button class="type-btn" data-type="boost">🔁 转嘟</button>
+        <button class="type-btn" data-type="dm">🔒 私信</button>
+      </div>
+    </div>
   </div>
-  <p class="info" id="filterInfo"></p>
 
-  <div class="btn-row" style="margin-top:1rem">
-    <button class="btn btn-primary" id="downloadBtn">⬇️ 下载 Markdown</button>
+  <div class="result-info" id="resultInfo"></div>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" id="downloadBtn">⬇️ 导出 Markdown</button>
     <button class="btn btn-secondary" id="resetBtn">重新上传</button>
   </div>
 
-  <div class="preview" id="preview"></div>
+  <div class="post-list" id="postList"></div>
 </div>
 
 <script>
-// ── DOM refs ──
 const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 const progressPanel = document.getElementById('progressPanel');
@@ -134,11 +154,8 @@ const progressFill = document.getElementById('progressFill');
 const statusText = document.getElementById('statusText');
 const resultPanel = document.getElementById('resultPanel');
 
-// ── State ──
-let allPosts = [];   // sorted desc, { published, md }
-let likes = [];      // url strings
-let dateMin = '';    // earliest post date yyyy-mm-dd
-let dateMax = '';    // latest post date yyyy-mm-dd
+let allPosts = [];
+let activeType = 'all';
 
 // ── Upload ──
 dropZone.addEventListener('click', () => fileInput.click());
@@ -152,42 +169,52 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   progressPanel.classList.remove('visible');
   dropZone.style.display = '';
   fileInput.value = '';
-  allPosts = []; likes = [];
+  allPosts = [];
 });
 
-document.getElementById('applyFilter').addEventListener('click', renderResult);
 document.getElementById('clearFilter').addEventListener('click', () => {
-  document.getElementById('dateFrom').value = dateMin;
-  document.getElementById('dateTo').value = dateMax;
-  renderResult();
+  const dates = allPosts.map(p => p.date).sort();
+  document.getElementById('dateFrom').value = dates[0] || '';
+  document.getElementById('dateTo').value = dates[dates.length-1] || '';
+  document.getElementById('keyword').value = '';
+  renderList();
 });
+
+// Type buttons
+document.getElementById('typeBtns').addEventListener('click', e => {
+  const btn = e.target.closest('.type-btn');
+  if (!btn) return;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeType = btn.dataset.type;
+  renderList();
+});
+
+// Live filter on input
+document.getElementById('dateFrom').addEventListener('change', renderList);
+document.getElementById('dateTo').addEventListener('change', renderList);
+document.getElementById('keyword').addEventListener('input', renderList);
+
 document.getElementById('downloadBtn').addEventListener('click', downloadMd);
 
 // ── Helpers ──
-function setProgress(pct, msg) {
-  progressFill.style.width = pct + '%';
-  statusText.textContent = msg;
-}
+function setProgress(pct, msg) { progressFill.style.width = pct + '%'; statusText.textContent = msg; }
 
 function stripHtml(html) {
   if (!html) return '';
   let s = html
     .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<\/p>/gi, '\n')
-    .replace(/<p[^>]*>/gi, '')
-    .replace(/<\/div>/gi, '\n')
-    .replace(/<div[^>]*>/gi, '')
-    // Hashtags & mentions: keep text only
+    .replace(/<\/p>/gi, '\n').replace(/<p[^>]*>/gi, '')
+    .replace(/<\/div>/gi, '\n').replace(/<div[^>]*>/gi, '')
     .replace(/<a[^>]*class="[^"]*(?:hashtag|mention)[^"]*"[^>]*>(?:<span[^>]*>)?([^<]*)(?:<\/span>)?<\/a>/gi, '$1')
-    // Other links
-    .replace(/<a[^>]*href="([^"]*)"[^>]*>([^<]*)<\/a>/gi, '$2 ($1)')
+    .replace(/<a[^>]*href="([^"]*)"[^>]*>(.*?)<\/a>/gi, (_, href, txt) => {
+      const clean = txt.replace(/<[^>]+>/g, '').trim();
+      return clean === href ? href : `${clean} ${href}`;
+    })
     .replace(/<[^>]+>/g, '');
   const ta = document.createElement('textarea');
   ta.innerHTML = s;
-  let result = ta.value.trim();
-  // Convert bare URLs in text to markdown links
-  result = result.replace(/(^|[\s\u4e00-\u9fff])(https?:\/\/[^\s]+)/g, (_, pre, url) => `${pre}[${url}](${url})`);
-  return result;
+  return ta.value.trim();
 }
 
 function fmtDate(iso) {
@@ -197,269 +224,241 @@ function fmtDate(iso) {
   return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
 }
 
-function isoToDate(iso) {
-  // returns yyyy-mm-dd string
-  return iso ? iso.slice(0, 10) : '';
+function isoToDate(iso) { return iso ? iso.slice(0, 10) : ''; }
+
+// Parse @user@instance from a Mastodon URL
+function parseAccount(url) {
+  if (!url) return '';
+  const m = url.match(/https?:\/\/([^/]+)\/@([^/]+)/);
+  if (m) return `@${m[2]}@${m[1]}`;
+  const m2 = url.match(/https?:\/\/([^/]+)\/users\/([^/]+)/);
+  if (m2) return `@${m2[2]}@${m2[1]}`;
+  return '';
 }
 
-function visibilityLabel(obj) {
-  const to = obj.to || [];
-  const cc = obj.cc || [];
+function getVisibility(obj) {
+  const to = obj.to || [], cc = obj.cc || [];
   const pub = 'https://www.w3.org/ns/activitystreams#Public';
-  if (to.includes(pub) || cc.includes(pub)) return null; // public
-  // Empty to+cc = direct message to self, or DM
-  if (to.length === 0 && cc.length === 0) return '🔒 私信';
-  // to contains only specific actors (no followers collection, no public)
-  const followersPattern = /\/followers$/;
-  const allDirect = to.every(t => !followersPattern.test(t) && t !== pub);
-  if (allDirect && to.length > 0) return '🔒 私信';
-  return null;
+  if (to.length === 0 && cc.length === 0) return 'dm';
+  if (to.includes(pub) || cc.includes(pub)) return 'public';
+  const followersRe = /\/followers$/;
+  if (to.some(t => followersRe.test(t)) || cc.some(t => followersRe.test(t))) return 'followers';
+  return 'dm';
 }
 
-// ── Build post markdown block ──
-function buildPostMd(item) {
-  const lines = [];
+function visLabel(vis) {
+  if (vis === 'public') return '🌍 公开';
+  if (vis === 'followers') return '👥 仅关注者';
+  if (vis === 'dm') return '🔒 私信';
+  return '';
+}
 
+// ── Parse item into post object ──
+function parseItem(item) {
   if (item.type === 'Announce') {
-    // Boost
     const published = item.published || '';
-    const originalUrl = typeof item.object === 'string' ? item.object : (item.object?.url || item.object?.id || '');
-    // Try to extract @actor from actor field or object url
-    let actor = '';
-    if (item.actor) {
-      // actor is usually a URL like https://instance/users/name
-      const m = item.actor.match(/https?:\/\/([^/]+)\/(?:users\/|@)?([^/]+)/);
-      if (m) actor = `@${m[2]}@${m[1]}`;
-    }
-    lines.push(`## ${fmtDate(published)}`);
-    lines.push('');
-    lines.push(`🔁 转嘟自 ${actor}`);
-    lines.push(`[${originalUrl}](${originalUrl})`);;
-    lines.push('');
-    if (item.id) lines.push(`[原文](${item.id})`);
-    lines.push('');
-    lines.push('---');
-    lines.push('');
-    return { published, md: lines.join('\n') };
+    const objUrl = typeof item.object === 'string' ? item.object : (item.object?.url || item.object?.id || '');
+    const account = parseAccount(objUrl) || parseAccount(item.actor);
+    const selfUrl = item.id?.replace('/activity', '') || '';
+    return {
+      type: 'boost',
+      published,
+      date: isoToDate(published),
+      account,
+      objUrl,
+      selfUrl,
+      content: '',
+      attachments: [],
+      inReplyTo: null,
+      replyAccount: '',
+      searchText: `🔁 ${account} ${objUrl}`,
+    };
   }
 
-  // Create / Note
   const obj = item.object;
   const published = obj.published || item.published || '';
+  const vis = getVisibility(obj);
   const content = stripHtml(obj.content || '');
+  const inReplyTo = obj.inReplyTo || null;
+  const replyAccount = inReplyTo ? parseAccount(inReplyTo) : '';
+  const type = vis === 'dm' ? 'dm' : (inReplyTo ? 'reply' : (vis === 'followers' ? 'followers' : 'original'));
+  const selfUrl = obj.url || obj.id || '';
 
-  lines.push(`## ${fmtDate(published)}`);
-  lines.push('');
-  if (content) lines.push(content);
+  const attachments = (obj.attachment || []).map(a => {
+    const url = a.url || a.href || '';
+    if (a.mediaType?.startsWith('image/')) return { kind: 'image', url };
+    if (a.mediaType?.startsWith('video/')) return { kind: 'video', url };
+    return { kind: 'file', url };
+  }).filter(a => a.url);
 
-  // Attachments (images only per spec: url field)
-  const attachments = (obj.attachment || []);
-  if (attachments.length) {
-    lines.push('');
-    for (const a of attachments) {
-      const url = a.url || a.href || '';
-      if (a.mediaType?.startsWith('image/')) {
-        lines.push(`![图片](${url})`);
-      } else if (a.mediaType?.startsWith('video/')) {
-        lines.push(`🎬 [视频](${url})`);
-      } else if (url) {
-        lines.push(`📎 [附件](${url})`);
-      }
-    }
-  }
-
-  // Reply
-  if (obj.inReplyTo) {
-    lines.push('');
-    lines.push(`↩️ 回复自：[${obj.inReplyTo}](${obj.inReplyTo})`);
-  }
-
-  // Footer
-  const vis = visibilityLabel(obj);
-  const originalUrl = obj.url || obj.id || '';
-  lines.push('');
-  const footerParts = [`[→ 原文](${originalUrl})`, vis].filter(Boolean).join(' · ');
-  lines.push(footerParts);
-  lines.push('');
-  lines.push('---');
-  lines.push('');
-
-  return { published, md: lines.join('\n') };
+  return {
+    type, vis, published, date: isoToDate(published),
+    content, inReplyTo, replyAccount, selfUrl, attachments,
+    searchText: [content, replyAccount, inReplyTo, selfUrl,
+      (obj.tag||[]).map(t=>t.name||'').join(' ')].join(' '),
+  };
 }
 
 // ── Main parse ──
 async function processFile(file) {
-  if (!file.name.endsWith('.zip')) { alert('请上传 .zip 格式的 Mastodon 存档'); return; }
+  if (!file.name.endsWith('.zip')) { alert('请上传 .zip 格式'); return; }
   dropZone.style.display = 'none';
   progressPanel.classList.add('visible');
   resultPanel.classList.remove('visible');
   setProgress(5, '正在读取 ZIP...');
-
   try {
     const zip = await JSZip.loadAsync(file);
     setProgress(20, '正在读取 outbox.json...');
-
-    let outboxFile = null, likesFile = null;
-    zip.forEach((path, f) => {
-      if (!f.dir) {
-        if (path === 'outbox.json' || path.endsWith('/outbox.json')) outboxFile = f;
-        if (path === 'likes.json' || path.endsWith('/likes.json')) likesFile = f;
-      }
-    });
-    if (!outboxFile) throw new Error('未找到 outbox.json，请确认是 Mastodon 官方导出的 ZIP');
+    let outboxFile = null;
+    zip.forEach((path, f) => { if (!f.dir && (path === 'outbox.json' || path.endsWith('/outbox.json'))) outboxFile = f; });
+    if (!outboxFile) throw new Error('未找到 outbox.json');
 
     setProgress(40, '正在解析嘟文...');
-    const outboxRaw = await outboxFile.async('string');
-    const outbox = JSON.parse(outboxRaw);
+    const outbox = JSON.parse(await outboxFile.async('string'));
     const items = outbox.orderedItems || outbox.items || (Array.isArray(outbox) ? outbox : []);
 
-    // Parse likes
-    likes = [];
-    if (likesFile) {
-      const likesRaw = await likesFile.async('string');
-      const likesData = JSON.parse(likesRaw);
-      likes = likesData.orderedItems || likesData.items || [];
-    }
+    setProgress(70, '正在构建列表...');
+    allPosts = items
+      .filter(i => i.type === 'Announce' || (i.type === 'Create' && i.object?.type === 'Note'))
+      .map(parseItem)
+      .sort((a, b) => new Date(b.published) - new Date(a.published));
 
-    setProgress(65, '正在构建嘟文列表...');
-
-    // Filter valid items: Create+Note or Announce
-    const validItems = items.filter(item => {
-      if (item.type === 'Announce') return true;
-      if (item.type === 'Create' && item.object?.type === 'Note') return true;
-      return false;
-    });
-
-    // Build posts
-    allPosts = validItems.map(buildPostMd);
-    // Sort descending
-    allPosts.sort((a, b) => new Date(b.published) - new Date(a.published));
-
-    setProgress(90, '整理完成...');
-
-    // Compute date range
-    const dates = allPosts.map(p => isoToDate(p.published)).filter(Boolean).sort();
-    dateMin = dates[0] || '';
-    dateMax = dates[dates.length - 1] || '';
-
-    document.getElementById('dateFrom').value = dateMin;
-    document.getElementById('dateTo').value = dateMax;
+    const dates = allPosts.map(p => p.date).filter(Boolean).sort();
+    document.getElementById('dateFrom').value = dates[0] || '';
+    document.getElementById('dateTo').value = dates[dates.length-1] || '';
+    document.getElementById('keyword').value = '';
+    document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === 'all'));
+    activeType = 'all';
 
     setProgress(100, '完成！');
-    setTimeout(() => {
-      progressPanel.classList.remove('visible');
-      resultPanel.classList.add('visible');
-      renderResult();
-    }, 400);
-
-  } catch (e) {
+    setTimeout(() => { progressPanel.classList.remove('visible'); resultPanel.classList.add('visible'); renderList(); }, 300);
+  } catch(e) {
     setProgress(0, '');
     progressPanel.classList.remove('visible');
     dropZone.style.display = '';
-    dropZone.innerHTML += `<div class="error" style="margin-top:1rem">❌ ${e.message}</div>`;
+    alert('处理出错：' + e.message);
   }
 }
 
-// ── Render stats + preview for current filter ──
-function renderResult() {
+// ── Filter ──
+function getFiltered() {
   const from = document.getElementById('dateFrom').value;
   const to = document.getElementById('dateTo').value;
+  const kw = document.getElementById('keyword').value.trim().toLowerCase();
 
-  const filtered = allPosts.filter(p => {
-    const d = isoToDate(p.published);
-    return (!from || d >= from) && (!to || d <= to);
+  return allPosts.filter(p => {
+    if (from && p.date < from) return false;
+    if (to && p.date > to) return false;
+    if (activeType !== 'all' && p.type !== activeType) return false;
+    if (kw && !p.searchText.toLowerCase().includes(kw)) return false;
+    return true;
   });
-
-  const boosts = filtered.filter(p => p.md.includes('🔁')).length;
-  const originals = filtered.length - boosts;
-
-  document.getElementById('stats').innerHTML = `
-    <div class="stat"><div class="stat-num">${filtered.length}</div><div class="stat-label">条嘟文</div></div>
-    <div class="stat"><div class="stat-num">${originals}</div><div class="stat-label">原创</div></div>
-    <div class="stat"><div class="stat-num">${boosts}</div><div class="stat-label">转嘟</div></div>
-    <div class="stat"><div class="stat-num">${likes.length}</div><div class="stat-label">点赞</div></div>
-  `;
-
-  document.getElementById('filterInfo').textContent =
-    filtered.length < allPosts.length
-      ? `已筛选 ${filtered.length} / ${allPosts.length} 条（点赞列表始终完整导出）`
-      : `共 ${allPosts.length} 条（点赞 ${likes.length} 条）`;
-
-  // Build preview md (first 2000 chars)
-  const md = buildMd(filtered, from, to);
-  document.getElementById('preview').textContent = md.slice(0, 2000) + (md.length > 2000 ? '\n\n…（预览截断）' : '');
 }
 
-// ── Build full MD string ──
-function buildMd(filtered, from, to) {
-  const rangeLabel = (from && to) ? `${from} ~ ${to}` : (from || to || '全部');
-  const boosts = filtered.filter(p => p.md.includes('🔁')).length;
-  const originals = filtered.length - boosts;
+// ── Render list ──
+function renderList() {
+  const filtered = getFiltered();
+  const total = allPosts.length;
 
+  // Stats
+  const cnt = t => allPosts.filter(p => p.type === t).length;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="stat-num">${total}</div><div class="stat-label">全部</div></div>
+    <div class="stat"><div class="stat-num">${cnt('original')}</div><div class="stat-label">原创</div></div>
+    <div class="stat"><div class="stat-num">${cnt('followers')}</div><div class="stat-label">仅关注者</div></div>
+    <div class="stat"><div class="stat-num">${cnt('reply')}</div><div class="stat-label">回复</div></div>
+    <div class="stat"><div class="stat-num">${cnt('boost')}</div><div class="stat-label">转嘟</div></div>
+    <div class="stat"><div class="stat-num">${cnt('dm')}</div><div class="stat-label">私信</div></div>
+  `;
+
+  document.getElementById('resultInfo').textContent =
+    filtered.length === total ? `共 ${total} 条` : `筛选结果 ${filtered.length} / ${total} 条`;
+
+  const list = document.getElementById('postList');
+  if (filtered.length === 0) { list.innerHTML = '<div class="empty">没有符合条件的嘟文</div>'; return; }
+
+  list.innerHTML = filtered.map(p => {
+    if (p.type === 'boost') {
+      return `<div class="post-item">
+        <div class="post-meta">${fmtDate(p.published)} · 🔁 转嘟 ${p.account}</div>
+        <div class="post-reply">${p.objUrl}</div>
+      </div>`;
+    }
+    const metaParts = [fmtDate(p.published), visLabel(p.vis)];
+    if (p.type === 'reply') metaParts.push(`↩️ 回复 ${p.replyAccount || ''}`);
+    const attachHtml = p.attachments.map(a => {
+      if (a.kind === 'image') return `<div class="post-attach">🖼 ${a.url}</div>`;
+      if (a.kind === 'video') return `<div class="post-attach">🎬 ${a.url}</div>`;
+      return `<div class="post-attach">📎 ${a.url}</div>`;
+    }).join('');
+    const replyHtml = p.inReplyTo ? `<div class="post-reply">↩️ ${p.inReplyTo}</div>` : '';
+    return `<div class="post-item">
+      <div class="post-meta">${metaParts.filter(Boolean).join(' · ')}</div>
+      <div class="post-content">${escHtml(p.content)}</div>
+      ${attachHtml}${replyHtml}
+    </div>`;
+  }).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Build MD ──
+function buildMd(filtered) {
+  const from = document.getElementById('dateFrom').value;
+  const to = document.getElementById('dateTo').value;
+  const rangeLabel = (from && to) ? `${from} ~ ${to}` : '全部';
+
+  const cnt = t => filtered.filter(p => p.type === t).length;
   const header = [
     `# Mastodon 存档（${rangeLabel}）`,
-    '',
-    `共 ${filtered.length} 条 · 原创 ${originals} · 转嘟 ${boosts}`,
+    `共 ${filtered.length} 条 · 原创 ${cnt('original')} · 仅关注者 ${cnt('followers')} · 回复 ${cnt('reply')} · 转嘟 ${cnt('boost')} · 私信 ${cnt('dm')}`,
     '',
     '---',
     '',
   ].join('\n');
 
-  const body = filtered.map(p => p.md).join('');
+  const body = filtered.map(p => {
+    const lines = [];
+    if (p.type === 'boost') {
+      lines.push(`[${fmtDate(p.published)}](<${p.selfUrl}>) · 🔁 转嘟 ${p.account}`);
+      lines.push(`<${p.objUrl}>`);
+    } else {
+      const metaParts = [visLabel(p.vis)];
+      if (p.type === 'reply') metaParts.push(`↩️ 回复 ${p.replyAccount || ''}`);
+      lines.push(`[${fmtDate(p.published)}](<${p.selfUrl}>) · ${metaParts.filter(Boolean).join(' · ')}`);
+      if (p.content) lines.push(p.content);
+      for (const a of p.attachments) {
+        if (a.kind === 'image') lines.push(`![图片](${a.url})`);
+        else if (a.kind === 'video') lines.push(`🎬 [视频](${a.url})`);
+        else lines.push(`📎 [附件](${a.url})`);
+      }
+      if (p.inReplyTo) lines.push(`↩️ <${p.inReplyTo}>`);
+    }
+    lines.push('');
+    lines.push('---');
+    lines.push('');
+    return lines.join('\n');
+  }).join('');
 
-  const likesSection = likes.length
-    ? ['## 点赞列表', '', ...likes.map(u => `- ${u}`), ''].join('\n')
-    : '';
-
-  return header + body + likesSection;
+  return header + body;
 }
 
 // ── Download ──
 function downloadMd() {
+  const filtered = getFiltered();
+  const md = buildMd(filtered);
   const from = document.getElementById('dateFrom').value;
   const to = document.getElementById('dateTo').value;
-  const filtered = allPosts.filter(p => {
-    const d = isoToDate(p.published);
-    return (!from || d >= from) && (!to || d <= to);
-  });
-  const md = buildMd(filtered, from, to);
-
-  // Try data URI download (works in most browsers)
   try {
     const uri = 'data:text/markdown;charset=utf-8,' + encodeURIComponent(md);
     const a = document.createElement('a');
-    a.href = uri;
-    a.download = `mastodon_${from || 'all'}_${to || 'all'}.md`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    a.href = uri; a.download = `mastodon_${from||'all'}_${to||'all'}.md`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
   } catch(e) {
-    // Fallback: copy to clipboard
-    navigator.clipboard.writeText(md).then(() => {
-      alert('下载受限，已将全文复制到剪贴板，请粘贴到文本编辑器并保存为 .md 文件。');
-    }).catch(() => {
-      // Last resort: show in textarea
-      showCopyBox(md);
-    });
+    navigator.clipboard.writeText(md).then(() => alert('已复制到剪贴板，请粘贴到编辑器保存为 .md 文件'));
   }
-}
-
-function showCopyBox(md) {
-  let box = document.getElementById('copyBox');
-  if (!box) {
-    box = document.createElement('div');
-    box.id = 'copyBox';
-    box.style.cssText = 'margin-top:1rem;width:100%';
-    box.innerHTML = `<p style="font-size:0.82rem;color:#aaa;margin-bottom:0.5rem">⚠️ 无法直接下载，请全选以下内容，复制后粘贴到编辑器保存为 .md 文件：</p>
-      <textarea id="copyArea" style="width:100%;height:200px;background:#0f0f1e;color:#ccc;border:1px solid #3a3a5a;border-radius:8px;padding:0.8rem;font-family:monospace;font-size:0.75rem;resize:vertical"></textarea>
-      <button onclick="document.getElementById('copyArea').select();document.execCommand('copy');alert('已复制！')" 
-        style="margin-top:0.5rem;padding:0.4rem 1rem;background:#7c3aed;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.85rem">
-        📋 全选并复制
-      </button>`;
-    resultPanel.appendChild(box);
-  }
-  document.getElementById('copyArea').value = md;
-  box.scrollIntoView({ behavior: 'smooth' });
 }
 </script>
 </body>
