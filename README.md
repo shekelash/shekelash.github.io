@@ -34,7 +34,7 @@
 
 ## Contact
  
- <a href="https://archiveofourown.org/users/shekelash" target="_blank" style="border:none;"><i class="fa-jelly-fill fa-regular fa-heart" style="font-size:48px; padding-right:1em; border:0px; text-align:center"></i></a>
+ <a href="https://archiveofourown.org/users/shekelash" target="_blank" style="border:none;"><i class="fa-solid fa-heart" style="font-size:48px; padding-right:1em; border:0px; text-align:center"></i></a>
  <a href="https://defcon.social/@shekelash" target="_blank" style="border:none;"><i class="fa-brands fa-mastodon" style="font-size:48px; padding-right:1em; border:0px; text-align:center"></i></a>
  <a href="https://github.com/shekelash"  style="border:none;" target="_blank"><i class="fa-brands fa-github" style="font-size:48px; padding-right:1em;"></i></a>
  <a href="mailto:shekelash@hotmail.com" target="_blank" style="border:none;"><i class="fa-solid fa-envelope" style="font-size:48px; padding-right:1em; border:0px; text-align:center"></i></a>
