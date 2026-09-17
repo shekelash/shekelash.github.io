@@ -28,6 +28,7 @@
 
 ### 其他自制工具
 - [mastodon存档读取工具](https://shekelash.github.io/tool/mastodon_converter.html)
+- [笔记格式整理工具](https://shekelash.github.io/tool/mastodon_converter.html)：可自定义模板的Claude构建
 
 <!-- .slide --> <!--向右翻页代码-->
 
